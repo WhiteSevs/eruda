@@ -124,12 +124,39 @@ export default class Network extends Tool {
     }
     let node
     request.render = () => {
+      const transformSize = (size, addType) => {
+        let ret = 0
+        let resultType = 'B'
+        const sizeData = {}
+        sizeData.B = 1
+        sizeData.KB = 1024
+        sizeData.MB = sizeData.KB * sizeData.KB
+        sizeData.GB = sizeData.MB * sizeData.KB
+        sizeData.TB = sizeData.GB * sizeData.KB
+        sizeData.PB = sizeData.TB * sizeData.KB
+        sizeData.EB = sizeData.PB * sizeData.KB
+        sizeData.ZB = sizeData.EB * sizeData.KB
+        sizeData.YB = sizeData.ZB * sizeData.KB
+        sizeData.BB = sizeData.YB * sizeData.KB
+        sizeData.NB = sizeData.BB * sizeData.KB
+        sizeData.DB = sizeData.NB * sizeData.KB
+        for (const key in sizeData) {
+          ret = size / sizeData[key]
+          resultType = key
+          if (sizeData.KB >= ret) {
+            break
+          }
+        }
+        ret = parseInt(ret)
+        ret = addType ? ret + ' ' + resultType.toString() : String(ret)
+        return ret
+      }
       const data = {
         name: request.name,
-        method: request.method,
+        method: String(request.method).toUpperCase(),
         status: request.status,
         type: request.subType,
-        size: request.size,
+        size: transformSize(request.size, true),
         time: request.displayTime,
       }
       if (node) {

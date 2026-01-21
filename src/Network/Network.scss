@@ -89,10 +89,10 @@
       @include overflow-auto(y);
       height: 100%;
       .section {
-        border-top: 1px solid var(--border);
+        //border-top: 1px solid var(--border);
         border-bottom: 1px solid var(--border);
-        margin-top: 10px;
-        margin-bottom: 10px;
+        //margin-top: 10px;
+        //margin-bottom: 10px;
         h2 {
           background: var(--darker-background);
           color: var(--primary);
@@ -123,11 +123,23 @@
         @include overflow-auto(x);
         padding: $padding;
         font-size: $font-size-s;
-        margin: 10px 0;
+        //margin: 10px 0;
         white-space: pre-wrap;
         border-top: 1px solid var(--border);
         color: var(--foreground);
-        border-bottom: 1px solid var(--border);
+        //border-bottom: 1px solid var(--border);
+      }
+      .data-format,
+      .response-format {
+        margin: 0px 0 0 10px;
+        border-radius: 15px;
+        border: 1px solid #1a73e8;
+        padding: 3px 8px;
+        color: #1a73e8;
+      }
+      .data-format:hover,
+      .response-format:hover{
+        background-color: #ffffff;
       }
     }
   }

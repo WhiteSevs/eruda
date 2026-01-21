@@ -22,9 +22,15 @@ export default [
     val: () =>
       [
         '<table><tbody>',
-        `<tr><td class="eruda-device-key">${i18n.t('screen')}</td><td>${screen.width} * ${screen.height}</td></tr>`,
-        `<tr><td>${i18n.t('viewport')}</td><td>${window.innerWidth} * ${window.innerHeight}</td></tr>`,
-        `<tr><td>${i18n.t('pixel ratio')}</td><td>${window.devicePixelRatio}</td></tr>`,
+        `<tr><td class="eruda-device-key">${i18n.t('screen')}</td><td>${
+          screen.width
+        } * ${screen.height}</td></tr>`,
+        `<tr><td>${i18n.t('viewport')}</td><td>${window.innerWidth} * ${
+          window.innerHeight
+        }</td></tr>`,
+        `<tr><td>${i18n.t('pixel ratio')}</td><td>${
+          window.devicePixelRatio
+        }</td></tr>`,
         '</tbody></table>',
       ].join(''),
   },
@@ -33,7 +39,9 @@ export default [
     val: () =>
       [
         '<table><tbody>',
-        `<tr><td class="eruda-system-key">${i18n.t('os')}</td><td>${detectOs()}</td></tr>`,
+        `<tr><td class="eruda-system-key">${i18n.t(
+          'os'
+        )}</td><td>${detectOs()}</td></tr>`,
         `<tr><td>${i18n.t('browser')}</td><td>${
           browser.name + ' ' + browser.version
         }</td></tr>`,
@@ -67,9 +75,9 @@ export default [
               item.link
             }" target="_blank">${item.link.replace(
               'https://',
-              '',
+              ''
             )}</a></td></tr>`
-          },
+          }
         ).join(' ') +
         '</tbody></table>'
       )

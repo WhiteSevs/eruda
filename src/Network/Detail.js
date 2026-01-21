@@ -8,6 +8,7 @@ import isJson from 'licia/isJson'
 import Emitter from 'licia/Emitter'
 import truncate from 'licia/truncate'
 import { classPrefix as c } from '../lib/util'
+import { i18n } from '../lib/i18n'
 
 export default class Detail extends Emitter {
   constructor($container, devtools) {
@@ -31,10 +32,15 @@ export default class Detail extends Emitter {
 
     let postData = ''
     if (data.data) {
-      postData = `<pre class="${c('data')}">${escape(data.data)}</pre>`
+      postData = /*html*/ `<div class="${c('section data-wrapper')}">
+        <h2>${i18n.t('Request Payload')}<button class="${c(
+          'data-format',
+        )}">${i18n.t('View parsed')}</button></h2>
+        <pre class="${c('data')}">${escape(data.data)}</pre>
+      </div>`
     }
 
-    let reqHeaders = '<tr><td>Empty</td></tr>'
+    let reqHeaders = `<tr><td>${i18n.t('Empty')}</td></tr>`
     if (data.reqHeaders) {
       reqHeaders = map(data.reqHeaders, (val, key) => {
         return `<tr>
@@ -44,7 +50,7 @@ export default class Detail extends Emitter {
       }).join('')
     }
 
-    let resHeaders = '<tr><td>Empty</td></tr>'
+    let resHeaders = `<tr><td>${i18n.t('Empty')}</td></tr>`
     if (data.resHeaders) {
       resHeaders = map(data.resHeaders, (val, key) => {
         return `<tr>
@@ -60,7 +66,12 @@ export default class Detail extends Emitter {
       if (text.length > MAX_RES_LEN) {
         text = truncate(text, MAX_RES_LEN)
       }
-      resTxt = `<pre class="${c('response')}">${escape(text)}</pre>`
+      resTxt = /*html*/ `<div class="${c('section response-wrapper')}">
+        <h2>${i18n.t('Response Content')}<button class="${c(
+          'response-format',
+        )}">${i18n.t('View parsed')}</button></h2>
+        <pre class="${c('response')}">${escape(text)}</pre>
+      </div>`
     }
 
     const html = `<div class="${c('control')}">
@@ -72,7 +83,7 @@ export default class Detail extends Emitter {
     <div class="${c('http')}">
       ${postData}
       <div class="${c('section')}">
-        <h2>Response Headers</h2>
+        <h2>${i18n.t('Response Headers')}</h2>
         <table class="${c('headers')}">
           <tbody>
             ${resHeaders}
@@ -80,7 +91,7 @@ export default class Detail extends Emitter {
         </table>
       </div>
       <div class="${c('section')}">
-        <h2>Request Headers</h2>
+        <h2>${i18n.t('Request Headers')}</h2>
         <table class="${c('headers')}">
           <tbody>
             ${reqHeaders}
@@ -92,6 +103,16 @@ export default class Detail extends Emitter {
 
     this._$container.html(html).show()
     this._detailData = data
+
+    // show parsed data
+    const $reqBodyFormatBtn = this._$container.find(
+      `${c('.data-wrapper')} ${c('.data-format')}`,
+    )
+    const $resContentFormatBtn = this._$container.find(
+      `${c('.response-wrapper')} ${c('.response-format')}`,
+    )
+    $reqBodyFormatBtn && $reqBodyFormatBtn?.[0]?.click?.()
+    $resContentFormatBtn && $resContentFormatBtn?.[0]?.click?.()
   }
   hide() {
     this._$container.hide()
@@ -148,6 +169,58 @@ export default class Detail extends Emitter {
           case 'image':
             return showSources('img', data.url)
         }
+      })
+      .on('click', c('.data-format'), (evt) => {
+        const detailData = this._detailData
+        const dataStr = detailData.data
+        const $formatBtn = evt.curTarget
+        const $wrapper = $formatBtn.closest(c('.data-wrapper'))
+        const $data = $wrapper.querySelector(c('.data'))
+        const isParsed = $formatBtn.hasAttribute('data-parsed')
+        let showDataStr
+        if (isParsed) {
+          $formatBtn.textContent = i18n.t('View parsed')
+          $formatBtn.removeAttribute('data-parsed')
+          showDataStr = escape(dataStr)
+        } else {
+          $formatBtn.textContent = i18n.t('View source')
+          $formatBtn.setAttribute('data-parsed', '')
+          try {
+            showDataStr = JSON.stringify(JSON.parse(dataStr), null, 2)
+          } catch {
+            showDataStr = escape(dataStr)
+          }
+        }
+        $data.innerHTML = showDataStr
+      })
+      .on('click', c('.response-format'), (evt) => {
+        const detailData = this._detailData
+        const dataStr = detailData.resTxt
+        const $formatBtn = evt.curTarget
+        const $wrapper = $formatBtn.closest(c('.response-wrapper'))
+        const $data = $wrapper.querySelector(c('.response'))
+        const isParsed = $formatBtn.hasAttribute('data-parsed')
+        const toNormalText = (text) => {
+          if (text.length > MAX_RES_LEN) {
+            text = truncate(text, MAX_RES_LEN)
+          }
+          return text
+        }
+        let showDataStr
+        if (isParsed) {
+          $formatBtn.textContent = i18n.t('View parsed')
+          $formatBtn.removeAttribute('data-parsed')
+          showDataStr = escape(toNormalText(dataStr))
+        } else {
+          $formatBtn.textContent = i18n.t('View source')
+          $formatBtn.setAttribute('data-parsed', '')
+          try {
+            showDataStr = JSON.stringify(JSON.parse(dataStr), null, 2)
+          } catch {
+            showDataStr = escape(toNormalText(dataStr))
+          }
+        }
+        $data.innerHTML = showDataStr
       })
 
     const showSources = (type, data) => {
