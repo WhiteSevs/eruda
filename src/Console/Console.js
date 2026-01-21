@@ -18,6 +18,7 @@ import Settings from '../Settings/Settings'
 import LunaConsole from 'luna-console'
 import LunaModal from 'luna-modal'
 import { classPrefix as c } from '../lib/util'
+import { i18n } from '../lib/i18n'
 
 uncaught.start()
 
@@ -142,10 +143,10 @@ export default class Console extends Tool {
       c(`
       <div class="control">
         <span class="icon-clear clear-console"></span>
-        <span class="level active" data-level="all">All</span>
-        <span class="level" data-level="info">Info</span>
-        <span class="level" data-level="warning">Warning</span>
-        <span class="level" data-level="error">Error</span>
+        <span class="level active" data-level="all">${i18n.t('All')}</span>
+        <span class="level" data-level="info">${i18n.t('Info')}</span>
+        <span class="level" data-level="warning">${i18n.t('Warning')}</span>
+        <span class="level" data-level="error">${i18n.t('Error')}</span>
         <span class="filter-text"></span>
         <span class="icon-filter filter"></span>
         <span class="icon-copy icon-disabled copy"></span>
@@ -153,8 +154,8 @@ export default class Console extends Tool {
       <div class="logs-container"></div>
       <div class="js-input">
         <div class="buttons">
-          <div class="button cancel">Cancel</div>
-          <div class="button execute">Execute</div>
+          <div class="button cancel">${i18n.t('Cancel')}</div>
+          <div class="button execute">${i18n.t('Execute')}</div>
         </div>
         <span class="icon-right"></span>
         <textarea></textarea>
@@ -239,9 +240,10 @@ export default class Console extends Tool {
           level = ['verbose', 'info', 'warning', 'error']
         }
         logger.setOption('level', level)
+        logger.emit('optionChange', 'level', level)
       })
       .on('click', c('.filter'), () => {
-        LunaModal.prompt('Filter').then((filter) => {
+        LunaModal.prompt(i18n.t('Filter')).then((filter) => {
           if (isNull(filter)) return
           this.filter(filter)
         })

@@ -19,6 +19,7 @@ import trim from 'licia/trim'
 import isNull from 'licia/isNull'
 import LunaModal from 'luna-modal'
 import { curlStr } from './util'
+import { i18n } from '../lib/i18n'
 
 export default class Network extends Tool {
   constructor() {
@@ -43,37 +44,37 @@ export default class Network extends Tool {
       columns: [
         {
           id: 'name',
-          title: 'Name',
+          title: i18n.t('Name'),
           sortable: true,
           weight: 30,
         },
         {
           id: 'method',
-          title: 'Method',
+          title: i18n.t('Method'),
           sortable: true,
           weight: 14,
         },
         {
           id: 'status',
-          title: 'Status',
+          title: i18n.t('Status'),
           sortable: true,
           weight: 14,
         },
         {
           id: 'type',
-          title: 'Type',
+          title: i18n.t('Type'),
           sortable: true,
           weight: 14,
         },
         {
           id: 'size',
-          title: 'Size',
+          title: i18n.t('Size'),
           sortable: true,
           weight: 14,
         },
         {
           id: 'time',
-          title: 'Time',
+          title: i18n.t('Time'),
           sortable: true,
           weight: 14,
         },
@@ -285,7 +286,7 @@ export default class Network extends Tool {
       .on('click', c('.copy-curl'), this._copyCurl)
       .on('click', c('.record'), this._toggleRecording)
       .on('click', c('.filter'), () => {
-        LunaModal.prompt('Filter').then((filter) => {
+        LunaModal.prompt(i18n.t('Filter')).then((filter) => {
           if (isNull(filter)) return
 
           $filterText.text(filter)

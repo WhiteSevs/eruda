@@ -10,6 +10,7 @@ import trim from 'licia/trim'
 import LunaModal from 'luna-modal'
 import { isErudaEl } from '../lib/util'
 import evalCss from '../lib/evalCss'
+import { i18n } from '../lib/i18n'
 
 let style = null
 
@@ -43,7 +44,7 @@ export default [
   {
     name: 'Search Text',
     fn() {
-      LunaModal.prompt('Enter the text').then((keyword) => {
+      LunaModal.prompt(i18n.t('Enter the text')).then((keyword) => {
         if (!keyword || trim(keyword) === '') {
           return
         }

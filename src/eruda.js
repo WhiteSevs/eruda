@@ -29,6 +29,7 @@ import isEqual from 'licia/isEqual'
 import extend from 'licia/extend'
 import evalCss from './lib/evalCss'
 import chobitsu from './lib/chobitsu'
+import { i18n } from './lib/i18n'
 
 export default {
   init({
@@ -319,4 +320,5 @@ export default {
 
     devTools.showTool(tool[0] || 'settings')
   },
+  _i18n: i18n,
 }

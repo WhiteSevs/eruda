@@ -2,6 +2,7 @@ import detectBrowser from 'licia/detectBrowser'
 import detectOs from 'licia/detectOs'
 import escape from 'licia/escape'
 import map from 'licia/map'
+import { i18n } from '../lib/i18n'
 
 const browser = detectBrowser()
 
@@ -18,24 +19,26 @@ export default [
   },
   {
     name: 'Device',
-    val: [
-      '<table><tbody>',
-      `<tr><td class="eruda-device-key">screen</td><td>${screen.width} * ${screen.height}</td></tr>`,
-      `<tr><td>viewport</td><td>${window.innerWidth} * ${window.innerHeight}</td></tr>`,
-      `<tr><td>pixel ratio</td><td>${window.devicePixelRatio}</td></tr>`,
-      '</tbody></table>',
-    ].join(''),
+    val: () =>
+      [
+        '<table><tbody>',
+        `<tr><td class="eruda-device-key">${i18n.t('screen')}</td><td>${screen.width} * ${screen.height}</td></tr>`,
+        `<tr><td>${i18n.t('viewport')}</td><td>${window.innerWidth} * ${window.innerHeight}</td></tr>`,
+        `<tr><td>${i18n.t('pixel ratio')}</td><td>${window.devicePixelRatio}</td></tr>`,
+        '</tbody></table>',
+      ].join(''),
   },
   {
     name: 'System',
-    val: [
-      '<table><tbody>',
-      `<tr><td class="eruda-system-key">os</td><td>${detectOs()}</td></tr>`,
-      `<tr><td>browser</td><td>${
-        browser.name + ' ' + browser.version
-      }</td></tr>`,
-      '</tbody></table>',
-    ].join(''),
+    val: () =>
+      [
+        '<table><tbody>',
+        `<tr><td class="eruda-system-key">${i18n.t('os')}</td><td>${detectOs()}</td></tr>`,
+        `<tr><td>${i18n.t('browser')}</td><td>${
+          browser.name + ' ' + browser.version
+        }</td></tr>`,
+        '</tbody></table>',
+      ].join(''),
   },
   {
     name: 'Sponsor this Project',
@@ -45,15 +48,15 @@ export default [
         map(
           [
             {
-              name: 'Open Collective',
+              name: i18n.t('Open Collective'),
               link: 'https://opencollective.com/eruda',
             },
             {
-              name: 'Ko-fi',
+              name: i18n.t('Ko-fi'),
               link: 'https://ko-fi.com/surunzi',
             },
             {
-              name: 'Wechat Pay',
+              name: i18n.t('Wechat Pay'),
               link: 'https://surunzi.com/wechatpay.html',
             },
           ],
@@ -64,9 +67,9 @@ export default [
               item.link
             }" target="_blank">${item.link.replace(
               'https://',
-              ''
+              '',
             )}</a></td></tr>`
-          }
+          },
         ).join(' ') +
         '</tbody></table>'
       )

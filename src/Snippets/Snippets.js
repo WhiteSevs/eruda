@@ -7,6 +7,7 @@ import map from 'licia/map'
 import remove from 'licia/remove'
 import evalCss from '../lib/evalCss'
 import { classPrefix as c } from '../lib/util'
+import { i18n } from '../lib/i18n'
 
 export default class Snippets extends Tool {
   constructor() {
@@ -72,19 +73,19 @@ export default class Snippets extends Tool {
   }
   _addDefSnippets() {
     each(defSnippets, (snippet) => {
-      this.add(snippet.name, snippet.fn, snippet.desc)
+      this.add(i18n.t(snippet.name), snippet.fn, i18n.t(snippet.desc))
     })
   }
   _render() {
     const html = map(this._snippets, (snippet, idx) => {
       return `<div class="${c('section run')}" data-idx="${idx}">
-        <h2 class="${c('name')}">${escape(snippet.name)}
+        <h2 class="${c('name')}">${i18n.t(escape(snippet.name))}
           <div class="${c('btn')}">
             <span class="${c('icon-play')}"></span>
           </div>
         </h2>
         <div class="${c('description')}">
-          ${escape(snippet.desc)}
+          ${i18n.t(escape(snippet.desc))}
         </div>
       </div>`
     }).join('')

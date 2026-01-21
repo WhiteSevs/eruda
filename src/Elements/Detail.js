@@ -26,6 +26,7 @@ import LunaBoxModel from 'luna-box-model'
 import chobitsu from '../lib/chobitsu'
 import { formatNodeName } from './util'
 import { isErudaEl, classPrefix as c } from '../lib/util'
+import { i18n } from '../lib/i18n'
 
 export default class Detail {
   constructor($container, devtools) {
@@ -158,7 +159,7 @@ export default class Detail {
         </tr>`
       }).join('')
     }
-    attributes = `<h2>Attributes</h2>
+    attributes = `<h2>${i18n.t('Attributes')}</h2>
     <div class="${c('table-wrapper')}">
       <table>
         <tbody>
@@ -182,7 +183,7 @@ export default class Detail {
           <div>}</div>
         </div>`
       }).join('')
-      styles = `<h2>Styles</h2>
+      styles = `<h2>${i18n.t('Styles')}</h2>
       <div class="${c('style-wrapper')}">
         ${style}
       </div>`
@@ -203,7 +204,7 @@ export default class Detail {
       }
 
       computedStyle = `<h2>
-        Computed Style
+        ${i18n.t('Computed Style')}
         ${toggleButton}
         <div class="${c('btn computed-style-search')}">
           <span class="${c('icon-filter')}"></span>
@@ -252,7 +253,7 @@ export default class Detail {
           </ul>
         </div>`
       }).join('')
-      listeners = `<h2>Event Listeners</h2>
+      listeners = `<h2>${i18n.t('Event Listeners')}</h2>
       <div class="${c('listener-wrapper')}">
         ${listeners} 
       </div>`
@@ -314,7 +315,7 @@ export default class Detail {
         this._toggleAllComputedStyle()
       )
       .on('click', c('.computed-style-search'), () => {
-        LunaModal.prompt('Filter').then((filter) => {
+        LunaModal.prompt(i18n.t('Filter')).then((filter) => {
           if (isNull(filter)) return
           filter = trim(filter)
           this._computedStyleSearchKeyword = filter

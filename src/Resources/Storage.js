@@ -9,6 +9,7 @@ import trim from 'licia/trim'
 import copy from 'licia/copy'
 import emitter from '../lib/emitter'
 import { safeStorage, classPrefix as c } from '../lib/util'
+import { i18n } from '../lib/i18n'
 
 export default class Storage {
   constructor($container, devtools, resources, type) {
@@ -24,12 +25,12 @@ export default class Storage {
       columns: [
         {
           id: 'key',
-          title: 'Key',
+          title: i18n.t('Key'),
           weight: 30,
         },
         {
           id: 'value',
-          title: 'Value',
+          title: i18n.t('Value'),
           weight: 90,
         },
       ],
@@ -111,7 +112,7 @@ export default class Storage {
 
     $container.html(
       c(`<h2 class="title">
-      ${type === 'local' ? 'Local' : 'Session'} Storage
+      ${i18n.t(`${type === 'local' ? 'Local' : 'Session'} Storage`)}
       <div class="btn refresh-storage">
         <span class="icon icon-refresh"></span>
       </div>
@@ -184,7 +185,7 @@ export default class Storage {
         devtools.notify('Copied', { icon: 'success' })
       })
       .on('click', c('.filter'), () => {
-        LunaModal.prompt('Filter').then((filter) => {
+        LunaModal.prompt(i18n.t('Filter')).then((filter) => {
           if (isNull(filter)) return
           filter = trim(filter)
           this._$filterText.text(filter)

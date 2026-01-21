@@ -9,6 +9,7 @@ import contain from 'licia/contain'
 import clone from 'licia/clone'
 import evalCss from '../lib/evalCss'
 import LunaSetting from 'luna-setting'
+import { i18n } from '../lib/i18n'
 
 export default class Settings extends Tool {
   constructor() {
@@ -61,6 +62,7 @@ export default class Settings extends Tool {
     this._setting.clear()
   }
   switch(config, key, desc) {
+    desc = i18n.t(desc)
     const id = this._genId()
 
     const item = this._setting.appendCheckbox(id, !!config.get(key), desc)
@@ -69,6 +71,7 @@ export default class Settings extends Tool {
     return this
   }
   select(config, key, desc, selections) {
+    desc = i18n.t(desc)
     const id = this._genId()
 
     const selectOptions = {}
@@ -85,6 +88,7 @@ export default class Settings extends Tool {
     return this
   }
   range(config, key, desc, { min = 0, max = 1, step = 0.1 }) {
+    desc = i18n.t(desc)
     const id = this._genId()
 
     const item = this._setting.appendNumber(id, config.get(key), desc, {
@@ -98,6 +102,7 @@ export default class Settings extends Tool {
     return this
   }
   button(text, handler) {
+    text = i18n.t(text)
     this._setting.appendButton(text, handler)
 
     return this
@@ -108,6 +113,7 @@ export default class Settings extends Tool {
     return this
   }
   text(text) {
+    text = i18n.t(text)
     this._setting.appendTitle(text)
 
     return this

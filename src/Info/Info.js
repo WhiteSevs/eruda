@@ -10,6 +10,7 @@ import escape from 'licia/escape'
 import copy from 'licia/copy'
 import $ from 'licia/$'
 import { classPrefix as c } from '../lib/util'
+import { i18n } from '../lib/i18n'
 
 export default class Info extends Tool {
   constructor() {
@@ -83,7 +84,7 @@ export default class Info extends Tool {
     return this
   }
   _addDefInfo() {
-    each(defInfo, (info) => this.add(info.name, info.val))
+    each(defInfo, (info) => this.add(i18n.t(info.name), info.val))
   }
   _render() {
     const infos = []
@@ -97,9 +98,11 @@ export default class Info extends Tool {
     const html = `<ul>${map(
       infos,
       (info) =>
-        `<li><h2 class="${c('title')}">${escape(info.name)}<span class="${c(
-          'icon-copy copy'
-        )}"></span></h2><div class="${c('content')}">${info.val}</div></li>`
+        `<li><h2 class="${c('title')}">${i18n.t(
+          escape(info.name)
+        )}<span class="${c('icon-copy copy')}"></span></h2><div class="${c(
+          'content'
+        )}">${info.val}</div></li>`
     ).join('')}</ul>`
 
     this._renderHtml(html)

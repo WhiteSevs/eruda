@@ -29,6 +29,7 @@ import {
   hasSafeArea,
   safeStorage,
 } from '../lib/util'
+import { i18n } from '../lib/i18n'
 
 export default class DevTools extends Emitter {
   constructor($container, { defaults = {}, inline = false } = {}) {
@@ -120,12 +121,12 @@ export default class DevTools extends Emitter {
     if (name === 'settings') {
       tab.append({
         id: name,
-        title: name,
+        title: i18n.t(name),
       })
     } else {
       tab.insert(tab.length - 1, {
         id: name,
-        title: name,
+        title: i18n.t(name),
       })
     }
 
@@ -247,6 +248,7 @@ export default class DevTools extends Emitter {
       .separator()
   }
   notify(content, options) {
+    content = i18n.t(content)
     this._notification.notify(content, options)
   }
   destroy() {
